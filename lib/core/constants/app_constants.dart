@@ -2,11 +2,11 @@
 class AppConstants {
   const AppConstants._();
 
-  static const appName = 'VSCU-100';
+  static const appName = 'SMROD';
   static const tagline = 'Edge intelligence for connected vehicle safety.';
 
   /// Pilot builds talk to the local store until the NestJS gateway is live.
-  static const usePilotData = false;
+  static const usePilotData = true;
 
   static const tokenKey = 'access_token';
   static const emailKey = 'session_email';

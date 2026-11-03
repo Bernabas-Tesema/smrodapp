@@ -10,7 +10,6 @@ import '../../../../app/theme/app_text_styles.dart';
 import '../../../../app/theme/app_theme.dart';
 import '../../../../core/alerts/voice_service.dart';
 import '../../../../shared/extensions/context_extensions.dart';
-import '../../../../shared/widgets/asset_glyph.dart';
 import '../providers/profile_photo_provider.dart';
 import '../viewmodels/auth_viewmodel.dart';
 
@@ -31,28 +30,48 @@ class ProfileScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           children: [
             const SizedBox(height: 12),
-            Center(
-              child: _PhotoAdder(
-                path: photoPath,
-                onTap: () => _choosePhoto(context, ref),
+            Container(
+              padding: const EdgeInsets.fromLTRB(18, 20, 18, 18),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [AppColors.red, AppColors.green],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(28),
+              ),
+              child: Column(
+                children: [
+                  _PhotoAdder(
+                    path: photoPath,
+                    onTap: () => _choosePhoto(context, ref),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    user?.displayName ?? 'Owner',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    user?.email ?? '',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.white70),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            Text(
-              user?.displayName ?? 'Owner',
-              textAlign: TextAlign.center,
-              style: AppTextStyles.heading,
-            ),
-            Text(
-              user?.email ?? '',
-              textAlign: TextAlign.center,
-              style: AppTextStyles.caption,
-            ),
             const SizedBox(height: 24),
+            const Text('Security & access', style: AppTextStyles.title),
+            const SizedBox(height: 10),
             Container(
               decoration: AppTheme.card,
               child: ListTile(
-                leading: const AssetGlyph('assets/images/finger print.jpg', size: 36),
+                leading: const _FingerprintBadge(size: 44),
                 title: const Text('Fingerprint screen'),
                 subtitle: const Text('Open the biometric access screen.'),
                 trailing: const Icon(Icons.chevron_right),
@@ -63,7 +82,7 @@ class ProfileScreen extends ConsumerWidget {
             Container(
               decoration: AppTheme.card,
               child: SwitchListTile(
-                secondary: const AssetGlyph('assets/images/finger print.jpg', size: 36),
+                secondary: const _FingerprintBadge(size: 44),
                 title: const Text('Biometric app lock'),
                 subtitle: Text(
                   auth.error ??
@@ -77,6 +96,8 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
+            const Text('Preferences', style: AppTextStyles.title),
+            const SizedBox(height: 10),
             Container(
               decoration: AppTheme.card,
               child: SwitchListTile(
@@ -93,6 +114,8 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
+            const Text('Vehicle & privacy', style: AppTextStyles.title),
+            const SizedBox(height: 10),
             Container(
               decoration: AppTheme.card,
               child: Column(
@@ -255,6 +278,26 @@ class _PhotoAdder extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+}
+
+class _FingerprintBadge extends StatelessWidget {
+  const _FingerprintBadge({required this.size});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: AppColors.red.withValues(alpha: 0.1),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(Icons.fingerprint_rounded, size: size * 0.62, color: AppColors.red),
     );
   }
 }

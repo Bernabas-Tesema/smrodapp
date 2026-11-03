@@ -39,6 +39,7 @@ class _GeofenceScreenState extends ConsumerState<GeofenceScreen> {
       name: _name.text,
       radiusMeters: _radius,
     );
+    if (!mounted) return;
     if (!ok) {
       final error = ref.read(geofenceViewModelProvider).error;
       if (error != null) context.showMessage(error);

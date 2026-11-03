@@ -30,42 +30,59 @@ class AppBottomNavigation extends StatelessWidget {
           )
         : const Icon(Icons.notifications);
 
-    return NavigationBar(
-      selectedIndex: currentIndex,
-      onDestinationSelected: onTap,
-      destinations: [
-        const NavigationDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        const NavigationDestination(
-          icon: Icon(Icons.map_outlined),
-          selectedIcon: Icon(Icons.map),
-          label: 'Track',
-        ),
-        const NavigationDestination(
-          icon: IconTheme(
-            data: IconThemeData(color: AppColors.red),
-            child: Icon(Icons.shield_outlined),
+    return Container(
+      margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x18000000),
+            blurRadius: 24,
+            offset: Offset(0, 8),
           ),
-          selectedIcon: IconTheme(
-            data: IconThemeData(color: AppColors.red),
-            child: Icon(Icons.shield),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: NavigationBar(
+        height: 74,
+        elevation: 0,
+        selectedIndex: currentIndex,
+        onDestinationSelected: onTap,
+        destinations: [
+          const NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home_rounded),
+            label: 'Home',
           ),
-          label: 'Security',
-        ),
-        NavigationDestination(
-          icon: alertIcon,
-          selectedIcon: alertSelected,
-          label: 'Alerts',
-        ),
-        const NavigationDestination(
-          icon: Icon(Icons.person_outline),
-          selectedIcon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
+          const NavigationDestination(
+            icon: Icon(Icons.map_outlined),
+            selectedIcon: Icon(Icons.map_rounded),
+            label: 'Track',
+          ),
+          const NavigationDestination(
+            icon: IconTheme(
+              data: IconThemeData(color: AppColors.red),
+              child: Icon(Icons.shield_outlined),
+            ),
+            selectedIcon: IconTheme(
+              data: IconThemeData(color: AppColors.red),
+              child: Icon(Icons.shield_rounded),
+            ),
+            label: 'Security',
+          ),
+          NavigationDestination(
+            icon: alertIcon,
+            selectedIcon: alertSelected,
+            label: 'Alerts',
+          ),
+          const NavigationDestination(
+            icon: Icon(Icons.person_outline_rounded),
+            selectedIcon: Icon(Icons.person_rounded),
+            label: 'Profile',
+          ),
+        ],
+      ),
     );
   }
 }

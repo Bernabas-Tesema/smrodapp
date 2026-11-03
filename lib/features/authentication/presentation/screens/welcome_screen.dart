@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/theme/app_colors.dart';
-import '../../../../core/constants/app_constants.dart';
 import '../../../../shared/widgets/brand_backdrop.dart';
 
 /// Three-step introduction. Skip or Get Started opens biometric access first.
@@ -19,24 +18,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   static const _pages = [
     _IntroPage(
-      kicker: 'Edge Computing',
-      title: 'Local Intelligence',
+      kicker: 'Vehicle Safety',
+      title: 'Stay Protected',
       body:
-          'Process vehicle data close to the device for fast responses and essential operation when connectivity is interrupted.',
+          'Get instant alerts about movement, tampering, and unusual activity around your vehicle.',
       art: _Art.shield,
     ),
     _IntroPage(
-      kicker: 'Cloud Computing',
-      title: 'Central Intelligence',
+      kicker: 'Live Tracking',
+      title: 'Know Where It Is',
       body:
-          'Coordinate secure storage, advanced analytics, device management, and scalable AI services from the cloud.',
+          'See your vehicle location, journey history, speed, and status whenever you need it.',
       art: _Art.map,
     ),
     _IntroPage(
-      kicker: 'Application Layer',
-      title: 'User Intelligence',
+      kicker: 'Remote Control',
+      title: 'Stay in Control',
       body:
-          'Turn live data into intuitive alerts, reports, analytics, and remote management through VSCU-100.',
+          'Manage security, geofences, emergency actions, and vehicle controls from one simple app.',
       art: _Art.safety,
     ),
   ];
@@ -159,55 +158,74 @@ class _IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: FittedBox(
-            fit: BoxFit.contain,
-            child: _Illustration(art: art),
-          ),
-        ),
-        const Text(
-          AppConstants.appName,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w800,
-            color: AppColors.greenDark,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          kicker,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 28,
-            height: 1.1,
-            fontWeight: FontWeight.w800,
-            color: AppColors.ink,
-          ),
-        ),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 28,
-            height: 1.15,
-            fontWeight: FontWeight.w800,
-            color: AppColors.red,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          body,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 15,
-            height: 1.45,
-            color: AppColors.muted,
-          ),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final illustrationHeight = (constraints.maxHeight * 0.42).clamp(
+          120.0,
+          260.0,
+        );
+        return Column(
+          children: [
+            SizedBox(
+              height: illustrationHeight,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: _Illustration(art: art),
+              ),
+            ),
+            const Spacer(),
+            SizedBox(
+              height: 64,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    kicker,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      height: 1.1,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.ink,
+                    ),
+                  ),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      height: 1.15,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 68,
+              child: Center(
+                child: Text(
+                  body,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    height: 1.45,
+                    color: AppColors.muted,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -217,17 +235,20 @@ class _Illustration extends StatelessWidget {
 
   final _Art art;
 
+  static const frameSize = 280.0;
+  static const circleSize = 246.0;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 260,
-      height: 260,
+      width: frameSize,
+      height: frameSize,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(
-            width: 230,
-            height: 230,
+            width: circleSize,
+            height: circleSize,
             decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,

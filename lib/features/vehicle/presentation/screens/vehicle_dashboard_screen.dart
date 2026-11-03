@@ -8,6 +8,7 @@ import '../../../../core/widgets/app_loader.dart';
 import '../../../authentication/presentation/viewmodels/auth_viewmodel.dart';
 import '../../../security/presentation/widgets/security_status_card.dart';
 import '../../../../shared/widgets/asset_glyph.dart';
+import '../../domain/entities/vehicle.dart';
 import '../viewmodels/vehicle_viewmodel.dart';
 
 /// Vehicle dashboard screen.
@@ -38,6 +39,8 @@ class VehicleDashboardScreen extends ConsumerWidget {
               onAlerts: () => context.go('/alerts'),
               onAccount: () => _account(context),
             ),
+            const SizedBox(height: 14),
+            _VehicleHeroCard(vehicle: vehicle),
             const SizedBox(height: 14),
             SecurityStatusCard(vehicle: vehicle),
             const SizedBox(height: 18),
@@ -75,7 +78,7 @@ class VehicleDashboardScreen extends ConsumerWidget {
                   const SizedBox(height: 8),
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    secondary: const AssetGlyph('assets/images/finger print.jpg', size: 36),
+                    secondary: const _FingerprintBadge(size: 42),
                     title: const Text('Biometric app lock'),
                     subtitle: Text(auth.error ?? 'Ask for biometrics the next time the app opens.'),
                     value: auth.biometricEnabled,
@@ -145,6 +148,78 @@ class _WelcomeCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+}
+
+class _VehicleHeroCard extends StatelessWidget {
+  const _VehicleHeroCard({required this.vehicle});
+
+  final Vehicle vehicle;
+
+  @override
+  Widget build(BuildContext context) {
+    final statusColor = vehicle.online ? AppColors.green : AppColors.red;
+    return Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(26),
+          border: Border.all(color: AppColors.line),
+          boxShadow: const [
+            BoxShadow(color: Color(0x10000000), blurRadius: 20, offset: Offset(0, 8)),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 68,
+              height: 68,
+              decoration: BoxDecoration(
+                color: AppColors.red.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(Icons.directions_car_filled_rounded, size: 36, color: AppColors.red),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(vehicle.title, style: AppTextStyles.title),
+                  const SizedBox(height: 4),
+                  Text(vehicle.plateNo, style: AppTextStyles.caption),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(color: statusColor, shape: BoxShape.circle),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        vehicle.online ? 'Online now' : 'Offline',
+                        style: TextStyle(color: statusColor, fontSize: 12, fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text('${vehicle.batteryPercent}%', style: AppTextStyles.title),
+                const SizedBox(height: 4),
+                const Text('Battery', style: AppTextStyles.caption),
+                const SizedBox(height: 8),
+                const Icon(Icons.battery_6_bar_rounded, color: AppColors.green),
+              ],
+            ),
+          ],
+        ),
     );
   }
 }
@@ -250,5 +325,24 @@ class _CircleAction extends StatelessWidget {
       ),
     );
   }
+
 }
 
+class _FingerprintBadge extends StatelessWidget {
+  const _FingerprintBadge({required this.size});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: AppColors.red.withValues(alpha: 0.1),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(Icons.fingerprint_rounded, size: size * 0.62, color: AppColors.red),
+    );
+  }
+}
